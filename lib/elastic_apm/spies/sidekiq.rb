@@ -31,11 +31,14 @@ module ElasticAPM
           name = SidekiqSpy.name_for(job)
 
           trace_context = nil
-          byebug
+          
           if job['apm_trace_context']
-            trace_context = TraceContext.parse(metadata: job['apm_trace_context'])
+            trace_context = TraceContext.new(
+              traceparent: TraceContext::Traceparent.new(**(job['apm_trace_context']['traceparent'].symbolize_keys)),
+              tracestate: TraceContext::Tracestate.new(**(job['apm_trace_context']['tracestate'].symbolize_keys))
+            )
           end
-          byebug
+          # byebug
           transaction = ElasticAPM.start_transaction(name, 'Sidekiq', trace_context: trace_context)
           ElasticAPM.set_label(:queue, queue)
 
