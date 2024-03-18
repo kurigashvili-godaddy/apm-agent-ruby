@@ -34,8 +34,7 @@ module ElasticAPM
           
           if job['apm_trace_context']
             trace_context = TraceContext.new(
-              traceparent: TraceContext::Traceparent.new(**(job['apm_trace_context']['traceparent'].symbolize_keys)),
-              tracestate: TraceContext::Tracestate.new(**(job['apm_trace_context']['tracestate'].symbolize_keys))
+              traceparent: TraceContext::Traceparent.new(**(job['apm_trace_context']['traceparent'].symbolize_keys))
             )
           end
           # byebug
