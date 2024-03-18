@@ -29,8 +29,9 @@ module ElasticAPM
       class Middleware
         def call(_worker, job, queue)
           name = SidekiqSpy.name_for(job)
-          
+
           trace_context = nil
+          byebug
           if job['apm_trace_context']
             trace_context = ElasticAPM::TraceContext.new(
               traceparent: ElasticAPM::TraceContext::Traceparent.new(trace_id: job['apm_trace_context']['trace_id'])
